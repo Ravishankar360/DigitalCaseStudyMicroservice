@@ -14,4 +14,6 @@ public interface UserBookRepository extends JpaRepository<User, Integer>{
 
 	User findByUserId(Integer userId);
 
+	User findByUserName(String userName);
+
 }

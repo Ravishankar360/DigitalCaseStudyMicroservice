@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import com.demo.repository.UserBookRepository;
 import com.demo.service.UserBookServiceImpl;
 
 
+@CrossOrigin(origins = "http://localhost:4200")
 @Controller
 @RequestMapping("/user")
 public class UserBookController {
@@ -71,6 +73,34 @@ public class UserBookController {
 		}		
 		return new ResponseEntity<> (obj,HttpStatus.OK);		
 	}
+	
+	@PostMapping("/addUser")
+	public User addUser(@RequestBody User user){
+		System.out.println("Start Add User Method()");
+		return this.userBookServiceImpl.addUser(user);
+	}
+	
+	
+	@PostMapping("/login")
+	public ResponseEntity<?> loginUser(@RequestBody User userData){
+		User user= userBookRepository.findByUserName(userData.getUserName());
+		
+		if(user.getRoleType().equals(userData.getRoleType())) {
+			if(user.getPassword().equals(userData.getPassword())){
+				return ResponseEntity.ok(user);
+			}
+			else {
+				return (ResponseEntity<?>) ResponseEntity.internalServerError();
+			}
+		}
+		else {
+			return (ResponseEntity<?>) ResponseEntity.internalServerError();
+			//return ResponseEntity.status(HttpStatus.FORBIDDEN)
+            //.body("This user role is not correct , Please select correct role. !!");
+		}
+		
+	}
+
 
 
 }

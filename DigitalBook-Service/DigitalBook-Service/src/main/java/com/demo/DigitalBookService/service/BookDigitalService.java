@@ -10,7 +10,7 @@ public interface BookDigitalService {
 
 	public Book addBook(Book book);
 
-	public Book updateBook(Book book);
+	public Book updateBook( Integer bookId, Book book);
 
 	public void deleteBook(Integer bookId);
 

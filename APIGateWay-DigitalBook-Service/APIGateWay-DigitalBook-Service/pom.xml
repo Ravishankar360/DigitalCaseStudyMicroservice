@@ -11,7 +11,7 @@
 	<groupId>com.demo</groupId>
 	<artifactId>APIGateWay-DigitalBook-Service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>APIGateWay-DigitalBook-Service</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>

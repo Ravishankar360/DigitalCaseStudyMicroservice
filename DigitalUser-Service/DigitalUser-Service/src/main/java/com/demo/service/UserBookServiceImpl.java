@@ -28,10 +28,16 @@ public class UserBookServiceImpl implements UserBookService{
 	public ResponseTemplateVO getUserwithBook(Integer bid) {
 		ResponseTemplateVO response = new ResponseTemplateVO();
 		User user = userBookRepository.findByUserId(bid);
-		ResponseEntity<Book> book = restTemplate.getForEntity("http://localhost:8082/book/"+user.getBookId(),Book.class);
+		ResponseEntity<Book> book = restTemplate.getForEntity("http://localhost:5000/book/"+user.getBid(),Book.class);
 	    response.getUser();
 	    response.getBook();
 		return response;
 	}
 
+	
+    public User addUser(User user) {
+			User userdata = userBookRepository.save(user);
+			return userdata;
+	}
+	
 }

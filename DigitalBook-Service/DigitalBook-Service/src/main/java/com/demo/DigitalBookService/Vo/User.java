@@ -22,25 +22,24 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User{
-	
-	@Id
+
 	private Integer userId;
-	@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
-	@Enumerated(EnumType.STRING)
-	private Salutation salutation;
+	private String salutation;
 	private String firstName;
 	private String lastName;
+	private String middleName;
 	private String userName;
 	private String userEmail;
 	private String password;
 	private String address;
 	private String city;
-	private String postalCode;
-	private Integer mobileNumber;
+	private Integer postalCode;
+	private String mobileNumber;
 	private Integer isActive;
 	private Date cretedAt;
 	private Date updateAt;
-	private Integer bookId;
+	private String roleType;
+	private Integer bid;
 
 }
 
