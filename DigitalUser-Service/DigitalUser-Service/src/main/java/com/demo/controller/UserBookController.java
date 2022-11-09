@@ -75,9 +75,10 @@ public class UserBookController {
 	}
 	
 	@PostMapping("/addUser")
-	public User addUser(@RequestBody User user){
+	public ResponseEntity<?> addUser(@RequestBody User user){
 		System.out.println("Start Add User Method()");
-		return this.userBookServiceImpl.addUser(user);
+		User saveUser = this.userBookServiceImpl.addUser(user);
+		return new ResponseEntity<User>(saveUser,HttpStatus.CREATED);
 	}
 	
 	
