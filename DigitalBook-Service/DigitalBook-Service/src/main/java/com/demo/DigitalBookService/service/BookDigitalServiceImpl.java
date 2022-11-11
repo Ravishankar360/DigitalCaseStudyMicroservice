@@ -153,6 +153,27 @@ public class BookDigitalServiceImpl implements BookDigitalService {
 		return book1;
 	}
 
+	public Object createBook(Book book) {
+		bookRepo.save(book);
+		return "CREATED";
+	}
+
+	public Book findBookById(Integer bookId) {
+		Book book = bookRepo.getById(bookId);
+		return book;
+	}
+
+	public Book saveBookWithImage(Book book, MultipartFile imagePath) throws IOException {
+
+		Book book1 = new Book();
+		book1.setImageName(imagePath.getOriginalFilename());
+		book1.setImageType(imagePath.getContentType());
+		book1.setImagepath(imagePath.getBytes());
+		bookRepo.save(book1);
+		return book1;
+	
+	}
+
 
 
 }

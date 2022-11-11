@@ -34,14 +34,22 @@ public class Book {
 	private String category;
 	private String bookAuthorName;
 	private String publisherName;
-	@Lob
-	@Column(name = "imagepath", length = 1000)
-	private byte[] imagepath;
 	private String price;
 	private Date createdAt;
 	private Date updatedAt;
 	private String isActive;
 	private String userId;
+	
+	@Column(name = "imagepath", unique = false, nullable = true, length = 100000)
+	private byte[] imagepath;
+
+	@Column(name = "imageName")
+	private String imageName;
+
+	@Column(name = "imageType")
+	private String imageType;
+	
+	
 	
 
 }

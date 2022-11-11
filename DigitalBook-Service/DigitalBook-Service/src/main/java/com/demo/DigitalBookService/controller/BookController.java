@@ -1,9 +1,11 @@
 package com.demo.DigitalBookService.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -41,6 +43,21 @@ public class BookController {
 		try {
 			System.out.println("Start controller saveBook method");
 			Book bookSave= this.bookServiceimpl.saveBook(book);
+			return new ResponseEntity<Book>(bookSave,HttpStatus.CREATED);
+		}catch(BusinessException be) {
+			   ControllerException ce = new ControllerException(be.getErrorCode(),be.getErrorMessage());
+			   return new ResponseEntity<ControllerException>(ce,HttpStatus.BAD_REQUEST);
+		}catch(Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<ControllerException>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping("/addbookWithImage")
+	public ResponseEntity<?> addbook(@RequestBody Book book, @RequestParam("imagePath") MultipartFile imagePath) throws IOException{
+		try {
+			System.out.println("Start controller saveBook method");
+			Book bookSave= this.bookServiceimpl.saveBookWithImage(book,imagePath);
 			return new ResponseEntity<Book>(bookSave,HttpStatus.CREATED);
 		}catch(BusinessException be) {
 			   ControllerException ce = new ControllerException(be.getErrorCode(),be.getErrorMessage());
@@ -111,5 +128,26 @@ public class BookController {
 			return (List<Book>) e;
 		}
 	}
+	
+	@PostMapping("/upload/image")
+	public ResponseEntity<Object> uplaodLogo(@RequestParam("imagePath") MultipartFile imagePath) throws IOException {
+
+		Book book = new Book();
+		book.setImageName(imagePath.getOriginalFilename());
+		book.setImageType(imagePath.getContentType());
+		// .logo((logo.getBytes())).build();
+		book.setImagepath(imagePath.getBytes());
+		return ResponseEntity.status(HttpStatus.OK).body((bookServiceimpl.createBook(book)));
+	}
+	
+	@GetMapping(value = "/get/image/{bookId}", produces = MediaType.IMAGE_JPEG_VALUE)
+	public ResponseEntity<byte[]> getLogo(@PathVariable("bookId") Integer bookId) throws IOException {
+
+		final Book dbImage = bookServiceimpl.findBookById(bookId);
+
+		return ResponseEntity.ok().contentType(MediaType.valueOf(dbImage.getImageType())).body((dbImage.getImagepath()));
+
+	}
+	
 	
 }
